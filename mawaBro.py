@@ -2,9 +2,13 @@ import discord
 from discord.ext import commands
 import requests
 import os
+from discord_slash import SlashCommand
 
 bot = commands.Bot(command_prefix='get ')
-
+slash = SlashCommand(bot, sync_commands=True)
+@bot.event
+async def on_ready():
+   print('back to life!')
 @bot.command()
 async def repeat(ctx, arg):
   await ctx.send(arg)
@@ -80,6 +84,11 @@ async def wink(ctx):
    myEmbed = discord.Embed(title = "*wink wink*" , colour= discord.Color.random())
    myEmbed.set_image(url=data['link'])
    await ctx.send(embed = myEmbed)        
-  
+   await ctx.send(embed = myEmbed) 
+      
+#testing slash commands
+@slash.slash(name ='greet' ,description='gifts you good!')
+async def greet(ctx):
+   await ctx.send("Super Mowa Happy Ga Undu!")
 
 bot.run(os.getenv('api_token'))
